@@ -22,31 +22,39 @@
 </head>
 
 <body>
-    <div id="firstPage" style="display: block;">
-        <label for="name">FullName</label>
-        <input type="text" id="name" />
+    <form>
+        <div id="firstPage" style="display: block;">
+            <label for="name">FullName</label>
+            <input type="text" id="name" />
 
-        <label for="email">Email</label>
-        <input type="text" id="email" />
+            <label for="email">Email</label>
+            <input type="text" id="email" />
 
-        <label for="phone">Phone</label>
-        <input type="number" id="phone" />
+            <label for="phone">Phone</label>
+            <input type="number" id="phone" />
 
-        <button id="submit">Submit</button>
-        <img src="" alt="" id="image" width="50px" style="display: block;">
-        <h5 id="logoName" style="display: block;"></h5>
-        <h5 id="stateName"></h5>
-        <h5 id="otp" style="color: firebrick;"></h5>
-    </div>
-    <div id="secondPage" style="display: none;">
-        <h4>Dear <span id="nameDisplay"></span><br> Thank You for enquiry <br>A 4 digit no. has been sent to <span
-                id="phDisplay"></span>
-        </h4>
-        <h4>Please Verify Your otp</h4>
-        <label for="otpVerify">Enter OTP</label>
-        <input type="text" id="otpVerifyInput">
-        <button id="verifyBtn">Verify</button>
-    </div>
+            <button id="submit">Submit</button>
+            <!-- image and logo name to be displayed -->
+            <img src="" alt="" id="image" width="50px" style="display: block;">
+            <h5 id="logoName" style="display: block;"></h5>
+            <!-- State to be displayed -->
+            <h5 id="stateName"></h5>
+            <!-- OTP to be displayed -->
+            <h5 id="otp" style="color: firebrick;"></h5>
+        </div>
+    </form>
+    <form>
+        <div id="secondPage" style="display: none;">
+            <h4>Dear <span id="nameDisplay"></span><br> Thank You for enquiry <br>A 4 digit no. has been sent to <span
+                    id="phDisplay"></span>
+            </h4>
+            <h4>Please Verify Your otp</h4>
+            <label for="otpVerify">Enter OTP</label>
+            <input type="text" id="otpVerifyInput">
+            <button id="verifyBtn">Verify</button>
+        </div>
+    </form>
+
 
 
     <script>
