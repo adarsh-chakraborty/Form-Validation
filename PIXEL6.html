@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="firstPage" style="display: block;">
+        <label for="name">FullName</label>
+        <input type="text" id="name" />
+
+        <label for="email">Email</label>
+        <input type="text" id="email" />
+
+        <label for="phone">Phone</label>
+        <input type="number" id="phone" />
+
+        <button id="submit">Submit</button>
+        <img src="" alt="" id="image" width="50px" style="display: block;">
+        <h5 id="logoName" style="display: block;"></h5>
+        <h5 id="stateName"></h5>
+        <h5 id="otp" style="color: firebrick;"></h5>
+    </div>
+    <div id="secondPage" style="display: none;">
+        <h4>Dear <span id="nameDisplay"></span><br> Thank You for enquiry <br>A 4 digit no. has been sent to <span
+                id="phDisplay"></span>
+        </h4>
+        <h4>Please Verify Your otp</h4>
+        <label for="otpVerify">Enter OTP</label>
+        <input type="text" id="otpVerifyInput">
+        <button id="verifyBtn">Verify</button>
+    </div>
+
+
+    <script>
+        let isNameCheckedPassed = false;
+        let isEmailCheckPassed = false;
+        let isPhoneCheckPassed = false;
+        let attempts = localStorage.getItem("otpAttempts");
+
+        const secondPageDiv = document.getElementById('secondPage');
+        const providers = {
+            jio: {
+                name: "Realiance Jio",
+                img: "https://cdn.iconscout.com/icon/free/png-256/jio-2363161-1970123.png",
+            },
+            vi: {
+                name: "VI - Vodafone Idea",
+                img: "https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/VI_%28Vodafone_Idea%29_Logo.svg/1200px-VI_%28Vodafone_Idea%29_Logo.svg.png",
+            },
+            airtel: {
+                name: "Airtel",
+                img: "https://cdn.iconscout.com/icon/free/png-256/airtel-2709181-2249151.png",
+            }
+        };
+        // Step 01 :- Extract Name from inputBox and email store into a variable,
+        const name = document.getElementById("name");
+        const email = document.getElementById("email");
+        const phone = document.getElementById("phone");
+        const image = document.getElementById("image");
+        const logoName = document.getElementById("logoName");
+        const stateName = document.getElementById("stateName");
+        const otp = document.getElementById('otp');
+        let nameDisplay = document.getElementById('nameDisplay');
+        let phDisplay = document.getElementById('phDisplay');
+        const firstPage = document.getElementById('firstPage');
+        const secondPage = document.getElementById('secondPage');
+        const otpVerifyInput = document.getElementById('otpVerifyInput');
+        const verifyBtn = document.getElementById('verifyBtn');
+        let temp = "";
+        phone.addEventListener('keyup', validatePhone);
+
+
+
+
+        // Step 02 :- Check the length of the name to be 8 digits or more
+        function validateName() {
+            isNameCheckedPassed = false;
+
+            if (name.value.length < 8) {
+                return alert("Please Enter FullName Atleast 8 digits");
+            }
+            const words = name.value.split(" ");
+            const firstName = words[0];
+            nameDisplay = firstName;
+            const lastName = words[1];
+            console.log(firstName, lastName);
+            if (firstName.length < 4) {
+                return alert("Please Enter FirstName Atleast 4 digits");
+            }
+            if (lastName.length < 4) {
+                return alert("Please Enter LastName Atleast 4 digits");
+            }
+            isNameCheckedPassed = true;
+
+            console.log(isNameCheckedPassed);
+        }
+        // Step 03 :- Check Email Validation
+        function validateEmail() {
+            isEmailCheckPassed = false;
+            let tempVar = email.value.trim();
+            // Must contain  @ -> ✓
+            // Must contain firstEmail before @ -> ✓
+            // Must contain address after @ -> ✓
+            // must contain . after address -> ✓
+            // must contain domain (atleast 2 characters) after .
+            if (tempVar.includes("@")) {
+                const tempEmail = tempVar.split("@");
+                const firstName = tempEmail[0];
+                const lastName = tempEmail[1];
+                if (firstName == "") {
+                    return alert("Enter Email Address");
+                }
+                if (!tempEmail[1].includes(".")) {
+                    return alert("Please provide a valid domain name");
+                }
+                const addressTemp = tempEmail[1].split(".");
+                const provider = addressTemp[0];
+                const domain = addressTemp[1];
+
+                if (lastName == "") {
+                    return alert("Enter Domain Name");
+                }
+                if (provider == "") {
+                    return alert("Enter Provider Name");
+                }
+                if (domain.length < 2) {
+                    return alert("Enter Valid Domain Name");
+                }
+                console.log("all checks passed, email is valid");
+                isEmailCheckPassed = true;
+            } else {
+                // invalid
+                return alert("Invalid Email");
+            }
+            // "Adarsh@google@com"
+            // [0] - Adarsh
+            //     [1] - google.com
+            //     [2] - com
+        }
+
+        // Step 04:- Check Phone Validation
+
+        // Condition :-
+        // Only Numbers are allowed -> ✓
+        // Make the no. appear like 123-456-7890
+        // No brackets, spcaes, hyphens -> ✓
+        // REal-time updating while typing, not after pressing submit button -> ✓
+        // First 3 -> (123) -> represents mobile -> provider print logo in the side
+        // if first 3 -> 621-799 -> Reliance Jio
+        //            -> 801-920 -> Idea
+        //            -> 921-999 -> airtel
+
+
+
+        // if second 3 -> State of india
+        //1 if second 3 -> State of india
+        //2             -> 001-020 -> maharashtra
+        //3             -> 051-100 -> CG
+        //4             -> 101-150 -> State of india
+        //5            -> 151-200 -> maharashtra
+        //6           -> 201-250 -> CG
+        //7            -> 251-300 -> Gujrat
+        //8            -> 301-350 -> Gujrat
+        //9            -> 351-400 -> Gujrat
+        //10            -> 401-450 -> Gujrat
+        //11           -> 451-500 -> Gujrat
+        //12            -> 300-400 -> Gujrat
+        //13           -> 300-400 -> Gujrat
+        //14            -> 300-400 -> Gujrat
+        //15 -> 100-200 -> maharashtra
+        //16            -> 200-300 -> CG
+        //17            -> 300-400 -> Gujrat
+        //18            -> 300-400 -> Gujrat
+        //19            -> 300-400 -> Gujrat
+        //20            -> 300-400 -> Gujrat
+        //21            -> 300-400 -> Gujrat
+        //22            -> 300-400 -> Gujrat
+        //23            -> 300-400 -> Gujrat
+        //24            -> 300-400 -> Gujrat
+        //25 -> 100-200 -> maharashtra
+        //26            -> 200-300 -> CG
+        //27            -> 300-400 -> Gujrat
+        //28            -> 300-400 -> Gujrat
+        //29            -> 300-400 -> Gujrat
+        //30            -> 300-400 -> Gujrat
+        //31            -> 300-400 -> Gujrat
+        //32            -> 300-400 -> Gujrat
+        //33           -> 300-400 -> Gujrat
+        //34            -> 300-400 -> Gujrat
+        //35            -> 200-300 -> CG
+        //36           -> 300-400 -> Gujrat
+
+
+
+        // Last 4 -> Any
+
+        // Step 04 (a):- Check Phone Validation for first 3 digits
+        function validatePhone() {
+            isPhoneCheckPassed = false;
+            let tempVar = +phone.value;
+            phDisplay = tempVar;
+            if (isNaN(tempVar)) {
+                return alert("Enter Only Numbers!!");
+            }
+            // -> 621-799 -> Reliance Jio
+            //            -> 800-920 -> Idea
+            //            -> 921-999 -> airtel
+            let currentProvider = null;
+            let firstThree = tempVar.toString().slice(0, 3);
+            if (firstThree >= 621 && firstThree <= 800) {
+                currentProvider = providers.jio;
+                image.src = providers.jio.img;
+                logoName.innerText = providers.jio.name;
+                isPhoneCheckPassed = true;
+            }
+            if (firstThree >= 801 && firstThree <= 920) {
+                currentProvider = providers.vi;
+                image.src = providers.vi.img;
+                logoName.innerText = providers.vi.name;
+                isPhoneCheckPassed = true;
+            }
+            if (firstThree >= 921 && firstThree <= 999) {
+                currentProvider = providers.airtel;
+                image.src = providers.airtel.img;
+                logoName.innerText = providers.airtel.name;
+                isPhoneCheckPassed = true;
+            }
+
+            console.log(currentProvider)
+            // Step 04 (b):- Check Phone Validation for second 3 digits
+
+            let secondThree = tempVar.toString().slice(3, 6);
+            const states = [
+                {
+                    from: 001,
+                    to: 020,
+                    stateName: 'Andhra Pradesh'
+                },
+                {
+                    from: 021,
+                    to: 040,
+                    stateName: 'Arunachal Pradesh'
+                },
+                {
+                    from: 041,
+                    to: 060,
+                    stateName: 'Assam'
+                },
+                {
+                    from: 061,
+                    to: 080,
+                    stateName: 'Bihar'
+                },
+                {
+                    from: 081,
+                    to: 100,
+                    stateName: 'Chhattisgarh'
+                },
+                {
+                    from: 101,
+                    to: 120,
+                    stateName: 'Goa'
+                },
+                {
+                    from: 121,
+                    to: 140,
+                    stateName: 'Gujarat'
+                },
+                {
+                    from: 141,
+                    to: 160,
+                    stateName: 'Haryana'
+                },
+                {
+                    from: 161,
+                    to: 180,
+                    stateName: 'Himachal Pradesh'
+                },
+                {
+                    from: 181,
+                    to: 200,
+                    stateName: 'Jharkhand'
+                },
+                {
+                    from: 201,
+                    to: 220,
+                    stateName: 'Karnataka'
+                },
+                {
+                    from: 221,
+                    to: 240,
+                    stateName: 'Kerala'
+                },
+                {
+                    from: 241,
+                    to: 260,
+                    stateName: 'Madhya Pradesh'
+                },
+                {
+                    from: 261,
+                    to: 280,
+                    stateName: 'Maharashtra'
+                },
+                {
+                    from: 281,
+                    to: 300,
+                    stateName: 'Manipur'
+                },
+                {
+                    from: 301,
+                    to: 320,
+                    stateName: 'Meghalaya'
+                },
+                {
+                    from: 321,
+                    to: 340,
+                    stateName: 'Mizoram'
+                },
+                {
+                    from: 341,
+                    to: 360,
+                    stateName: 'Nagaland'
+                },
+                {
+                    from: 361,
+                    to: 380,
+                    stateName: 'Odisha'
+                },
+                {
+                    from: 381,
+                    to: 400,
+                    stateName: 'Punjab'
+                },
+                {
+                    from: 401,
+                    to: 420,
+                    stateName: 'Rajasthan'
+                },
+                {
+                    from: 421,
+                    to: 440,
+                    stateName: 'Sikkim'
+                },
+                {
+                    from: 441,
+                    to: 460,
+                    stateName: 'Tamil Nadu'
+                },
+                {
+                    from: 461,
+                    to: 480,
+                    stateName: 'Telangana'
+                },
+                {
+                    from: 481,
+                    to: 500,
+                    stateName: 'Tripura'
+                },
+                {
+                    from: 501,
+                    to: 520,
+                    stateName: 'Uttar Pradesh'
+                },
+                {
+                    from: 521,
+                    to: 540,
+                    stateName: 'Uttarakhand'
+                },
+                {
+                    from: 541,
+                    to: 560,
+                    stateName: 'West Bengal'
+                },
+                {
+                    from: 561,
+                    to: 580,
+                    stateName: 'Andaman and Nicobar Islands'
+                },
+                {
+                    from: 581,
+                    to: 600,
+                    stateName: 'Chandigarh'
+                },
+                {
+                    from: 601,
+                    to: 620,
+                    stateName: 'Dadra & Nagar Haveli and Daman & Diu'
+                },
+                {
+                    from: 621,
+                    to: 640,
+                    stateName: 'Delhi'
+                },
+                {
+                    from: 641,
+                    to: 660,
+                    stateName: 'Jammu and Kashmir'
+                },
+                {
+                    from: 661,
+                    to: 680,
+                    stateName: 'Lakshadweep'
+                },
+                {
+                    from: 681,
+                    to: 700,
+                    stateName: 'Puducherry'
+                },
+                {
+                    from: 701,
+                    to: 720,
+                    stateName: 'Ladakh'
+                } - 45
+            ];
+            let flag = null;
+            for (let currentState of states) {
+                if (secondThree >= currentState.from && secondThree <= currentState.to) {
+                    flag = currentState.stateName;
+                    break;
+                }
+            }
+            document.getElementById('stateName').innerHTML = flag;
+        }
+        function generateOTP() {
+
+            var digits = '0123456789';
+            let OTP = '';
+
+            for (let i = 0; i < 4; i++) {
+                OTP += digits[Math.floor(Math.random() * 10)];
+            }
+            otp.innerText = "OTP of 4 digits: " + OTP;
+            temp = OTP;
+            navigator.clipboard.writeText(OTP);
+            alert("Copied the text: " + OTP);
+
+        }
+        function verifyOtp() {
+            let verify = otpVerifyInput.value;
+            console.log(verify, temp);
+            console.log(verify, temp);
+            if (verify == temp) {
+                // Successful OTP
+                localStorage.clear();
+                location.replace("http://pixel6.co/");
+            } else {
+                // Wrong OTP
+
+                if (attempts == null) {
+                    attempts = 0;
+                }
+                attempts++;
+                localStorage.setItem("otpAttempts", attempts);
+                if (attempts <= 3) {
+                    location.reload();
+                } else {
+                    localStorage.clear();
+                    location.replace('http://pixel6.co/404');
+                }
+            }
+        }
+
+        let btn2 = document.getElementById('verifyBtn').addEventListener("click", verifyOtp);
+        let btn1 = document.getElementById("submit").addEventListener("click", () => {
+            validateEmail();
+            validateName();
+            validatePhone();
+            if (isEmailCheckPassed && isNameCheckedPassed && isPhoneCheckPassed) {
+                generateOTP();
+                document.getElementById('firstPage').style.display = 'none';
+                document.getElementById('secondPage').style.display = 'block';
+                document.getElementById('nameDisplay').innerText = nameDisplay;
+                document.getElementById('phDisplay').innerText = phDisplay;
+
+            }
+        });
+    </script>
+</body>
+
+</html>
