@@ -50,12 +50,33 @@
 
 
     <script>
+        // Code Starts Here :D
+
+        //Extract all the DOM references into variable,
+        const name = document.getElementById("name");
+        const email = document.getElementById("email");
+        const phone = document.getElementById("phone");
+        const image = document.getElementById("image");
+        const logoName = document.getElementById("logoName");
+        const stateName = document.getElementById("stateName");
+        const otp = document.getElementById('otp');
+        const firstPage = document.getElementById('firstPage');
+        const secondPage = document.getElementById('secondPage');
+        const otpVerifyInput = document.getElementById('otpVerifyInput');
+        const verifyBtn = document.getElementById('verifyBtn');
+        const secondPageDiv = document.getElementById('secondPage');
+
+        //Registering event listeners
+        phone.addEventListener('keyup', validatePhone);
+        //Setting up required Global Variables
         let isNameCheckedPassed = false;
         let isEmailCheckPassed = false;
         let isPhoneCheckPassed = false;
+        let temp = "";
         let attempts = localStorage.getItem("otpAttempts");
-
-        const secondPageDiv = document.getElementById('secondPage');
+        let nameDisplay = document.getElementById('nameDisplay');
+        let phDisplay = document.getElementById('phDisplay');
+        // Setting up name and images for network providers
         const providers = {
             jio: {
                 name: "Realiance Jio",
@@ -70,77 +91,75 @@
                 img: "https://cdn.iconscout.com/icon/free/png-256/airtel-2709181-2249151.png",
             }
         };
-        // Step 01 :- Extract Name from inputBox and email store into a variable,
-        const name = document.getElementById("name");
-        const email = document.getElementById("email");
-        const phone = document.getElementById("phone");
-        const image = document.getElementById("image");
-        const logoName = document.getElementById("logoName");
-        const stateName = document.getElementById("stateName");
-        const otp = document.getElementById('otp');
-        let nameDisplay = document.getElementById('nameDisplay');
-        let phDisplay = document.getElementById('phDisplay');
-        const firstPage = document.getElementById('firstPage');
-        const secondPage = document.getElementById('secondPage');
-        const otpVerifyInput = document.getElementById('otpVerifyInput');
-        const verifyBtn = document.getElementById('verifyBtn');
-        let temp = "";
-        phone.addEventListener('keyup', validatePhone);
-
-
-
-
-        // Step 02 :- Check the length of the name to be 8 digits or more
+        // Step 01 :- Check Name Validity
         function validateName() {
+            //Setting up name validity
             isNameCheckedPassed = false;
-
+            //Checking if length of name is not less than 8
             if (name.value.length < 8) {
                 return alert("Please Enter FullName Atleast 8 digits");
             }
+            //Spliting the firstname and lastname into two parts
             const words = name.value.split(" ");
             const firstName = words[0];
             nameDisplay = firstName;
             const lastName = words[1];
             console.log(firstName, lastName);
+            // Checking that firstname and lastname is not less than 4 digits
             if (firstName.length < 4) {
                 return alert("Please Enter FirstName Atleast 4 digits");
             }
             if (lastName.length < 4) {
                 return alert("Please Enter LastName Atleast 4 digits");
             }
+            //Confirming the validation to be satisfied
             isNameCheckedPassed = true;
-
             console.log(isNameCheckedPassed);
         }
-        // Step 03 :- Check Email Validation
+        // Step 02 :- Check Email Validation
         function validateEmail() {
+            //Setting up name validity
             isEmailCheckPassed = false;
+            //Removing any blank spaces before or after the string
             let tempVar = email.value.trim();
-            // Must contain  @ -> ✓
+            // Conditions
+            // Must contain  "@" -> ✓
             // Must contain firstEmail before @ -> ✓
             // Must contain address after @ -> ✓
-            // must contain . after address -> ✓
-            // must contain domain (atleast 2 characters) after .
+            // must contain . after address 
+            // must contain domain (atleast 2 characters) after . -> ✓
+
+            // Checking if contain  "@"
             if (tempVar.includes("@")) {
+                //spliting values before and after "@" and storing into an array
                 const tempEmail = tempVar.split("@");
+                // Storing Values before "@" into firstname
                 const firstName = tempEmail[0];
+                // Storing Values after "@" into lastname
                 const lastName = tempEmail[1];
+                // Checking if firstname is blank
                 if (firstName == "") {
                     return alert("Enter Email Address");
                 }
+                // Checking if lastname has '. (dot)' or not
                 if (!tempEmail[1].includes(".")) {
                     return alert("Please provide a valid domain name");
                 }
+                // Spltiing values before and after "." of lastname and storing into an array
                 const addressTemp = tempEmail[1].split(".");
+                // Storing Values before "." into provider
                 const provider = addressTemp[0];
+                // Storing Values after "." into domain
                 const domain = addressTemp[1];
-
+                // Checking if lastname has domain name or not
                 if (lastName == "") {
                     return alert("Enter Domain Name");
                 }
+                // Checking if lastname has provider name or not
                 if (provider == "") {
                     return alert("Enter Provider Name");
                 }
+                // Checking if domain name is valid or not
                 if (domain.length < 2) {
                     return alert("Enter Valid Domain Name");
                 }
@@ -150,104 +169,67 @@
                 // invalid
                 return alert("Invalid Email");
             }
-            // "Adarsh@google@com"
-            // [0] - Adarsh
-            //     [1] - google.com
-            //     [2] - com
         }
 
-        // Step 04:- Check Phone Validation
 
-        // Condition :-
-        // Only Numbers are allowed -> ✓
-        // Make the no. appear like 123-456-7890
-        // No brackets, spcaes, hyphens -> ✓
-        // REal-time updating while typing, not after pressing submit button -> ✓
-        // First 3 -> (123) -> represents mobile -> provider print logo in the side
-        // if first 3 -> 621-799 -> Reliance Jio
-        //            -> 801-920 -> Idea
-        //            -> 921-999 -> airtel
-
-
-
-        // if second 3 -> State of india
-        //1 if second 3 -> State of india
-        //2             -> 001-020 -> maharashtra
-        //3             -> 051-100 -> CG
-        //4             -> 101-150 -> State of india
-        //5            -> 151-200 -> maharashtra
-        //6           -> 201-250 -> CG
-        //7            -> 251-300 -> Gujrat
-        //8            -> 301-350 -> Gujrat
-        //9            -> 351-400 -> Gujrat
-        //10            -> 401-450 -> Gujrat
-        //11           -> 451-500 -> Gujrat
-        //12            -> 300-400 -> Gujrat
-        //13           -> 300-400 -> Gujrat
-        //14            -> 300-400 -> Gujrat
-        //15 -> 100-200 -> maharashtra
-        //16            -> 200-300 -> CG
-        //17            -> 300-400 -> Gujrat
-        //18            -> 300-400 -> Gujrat
-        //19            -> 300-400 -> Gujrat
-        //20            -> 300-400 -> Gujrat
-        //21            -> 300-400 -> Gujrat
-        //22            -> 300-400 -> Gujrat
-        //23            -> 300-400 -> Gujrat
-        //24            -> 300-400 -> Gujrat
-        //25 -> 100-200 -> maharashtra
-        //26            -> 200-300 -> CG
-        //27            -> 300-400 -> Gujrat
-        //28            -> 300-400 -> Gujrat
-        //29            -> 300-400 -> Gujrat
-        //30            -> 300-400 -> Gujrat
-        //31            -> 300-400 -> Gujrat
-        //32            -> 300-400 -> Gujrat
-        //33           -> 300-400 -> Gujrat
-        //34            -> 300-400 -> Gujrat
-        //35            -> 200-300 -> CG
-        //36           -> 300-400 -> Gujrat
-
-
-
-        // Last 4 -> Any
-
-        // Step 04 (a):- Check Phone Validation for first 3 digits
+        // Step 03:- Check Phone Validation
         function validatePhone() {
+
+            // Condition :-
+            // Only Numbers are allowed -> ✓
+            // Make the no. appear like 123-456-7890
+            // No brackets, spcaes, hyphens -> ✓
+            // REal-time updating while typing, not after pressing submit button -> ✓
+            // First 3 -> (123) -> represents mobile -> provider print logo in the side
+            // if first 3 -> 621-799 -> Reliance Jio
+            //            -> 801-920 -> Idea
+            //            -> 921-999 -> airtel
+
+            // Setting up phone validity
             isPhoneCheckPassed = false;
+            // Storing numbers from inputbox to a variable
             let tempVar = +phone.value;
+            // Setting up variable for displaying purposes
             phDisplay = tempVar;
+            // Checking if values are only number or not but same can be achived just by putting input type= numbers and 
+            //hiding arrows using some css from the intenet
             if (isNaN(tempVar)) {
                 return alert("Enter Only Numbers!!");
             }
-            // -> 621-799 -> Reliance Jio
+            // Conditions :- 
+            //            -> 621-799 -> Reliance Jio
             //            -> 800-920 -> Idea
             //            -> 921-999 -> airtel
             let currentProvider = null;
+            //Step 03(a) :-Extracting first 3 digit numbers from the 10 digit phone number and storing into a variable
             let firstThree = tempVar.toString().slice(0, 3);
+            // Checking if first 3 numbers comes under the range of 621-800
             if (firstThree >= 621 && firstThree <= 800) {
                 currentProvider = providers.jio;
                 image.src = providers.jio.img;
                 logoName.innerText = providers.jio.name;
                 isPhoneCheckPassed = true;
             }
+            // Checking if first 3 numbers comes under the range of 801-920
             if (firstThree >= 801 && firstThree <= 920) {
                 currentProvider = providers.vi;
                 image.src = providers.vi.img;
                 logoName.innerText = providers.vi.name;
                 isPhoneCheckPassed = true;
             }
+            // Checking if first 3 numbers comes under the range of 921-999
             if (firstThree >= 921 && firstThree <= 999) {
                 currentProvider = providers.airtel;
                 image.src = providers.airtel.img;
                 logoName.innerText = providers.airtel.name;
                 isPhoneCheckPassed = true;
             }
+            console.log(currentProvider);
+            // Step 03 (b):- Check Phone Validation for second 3 digits
 
-            console.log(currentProvider)
-            // Step 04 (b):- Check Phone Validation for second 3 digits
-
+            // Extracting second 3 digit numbers from the 10 digit phone number and storing into a variable
             let secondThree = tempVar.toString().slice(3, 6);
+            // Array containing all 28 states and 7 UT
             const states = [
                 {
                     from: 001,
@@ -431,6 +413,7 @@
                 } - 45
             ];
             let flag = null;
+            // Checking secondThree is between ranges or not if it is then print service provider in that range
             for (let currentState of states) {
                 if (secondThree >= currentState.from && secondThree <= currentState.to) {
                     flag = currentState.stateName;
@@ -439,59 +422,77 @@
             }
             document.getElementById('stateName').innerHTML = flag;
         }
+        // Step 04:- Generate OTP
         function generateOTP() {
 
             var digits = '0123456789';
             let OTP = '';
-
             for (let i = 0; i < 4; i++) {
                 OTP += digits[Math.floor(Math.random() * 10)];
             }
             otp.innerText = "OTP of 4 digits: " + OTP;
+            // Storing the otp for future validation purposes
             temp = OTP;
+            // Automatically Copying the OTP into clipboard
             navigator.clipboard.writeText(OTP);
+            // Sending an alert about the otp has been verified
             alert("Copied the text: " + OTP);
-
         }
+        // Step 05:- Verify OTP
         function verifyOtp() {
             let verify = otpVerifyInput.value;
             console.log(verify, temp);
             console.log(verify, temp);
+            // Checking if otp is equal to otp that user input
             if (verify == temp) {
                 // Successful OTP
+                // Clearing Local Storage
                 localStorage.clear();
+                // Redirecting to pixel6.co
                 location.replace("http://pixel6.co/");
             } else {
                 // Wrong OTP
+                // Setting up otpAttempts (key) and attempts (value) in local storage
+                localStorage.setItem("otpAttempts", attempts);
 
                 if (attempts == null) {
                     attempts = 0;
                 }
                 attempts++;
-                localStorage.setItem("otpAttempts", attempts);
+                // if attempts is less or equal to 3 attempts limit
                 if (attempts <= 3) {
+                    //Reload the entire page
                     location.reload();
-                } else {
+                }
+                // Else clear local storage and replace current page with page 404
+                else {
                     localStorage.clear();
                     location.replace('http://pixel6.co/404');
                 }
             }
         }
-
+        // references of buttons
         let btn2 = document.getElementById('verifyBtn').addEventListener("click", verifyOtp);
         let btn1 = document.getElementById("submit").addEventListener("click", () => {
+            // Calling functions as soon as submit button has been clicked
             validateEmail();
             validateName();
             validatePhone();
+            // Checking if all the checks are 'true'
             if (isEmailCheckPassed && isNameCheckedPassed && isPhoneCheckPassed) {
+                // Call generateOTP when all the verifications are passed
                 generateOTP();
+                // Hiding first page
                 document.getElementById('firstPage').style.display = 'none';
+                //Displaying second page
                 document.getElementById('secondPage').style.display = 'block';
+                // Dsiplaying name and phone number on Successful otp sent dialogue
                 document.getElementById('nameDisplay').innerText = nameDisplay;
                 document.getElementById('phDisplay').innerText = phDisplay;
 
             }
         });
+        // Code Ends Here :D
     </script>
 </body>
 
