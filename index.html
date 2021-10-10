@@ -609,7 +609,7 @@
                 attempts++;
                 localStorage.setItem("otpAttempts", attempts);
                 if (attempts <= 3) {
-                    location.href("practice.html");
+                    location.reload();
                 } else {
                     localStorage.clear();
                     location.replace('http://pixel6.co/404');
