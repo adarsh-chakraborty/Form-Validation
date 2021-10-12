@@ -192,10 +192,10 @@
                 wrong1.style.display = 'inline';
                 right1.style.display = 'none';
                 msgName.innerText = "Only letters (A-Z) allowed in name."
-                name.addEventListener('click', () => {
+                name.addEventListener('blur', () => {
                     msgName.style.display = 'none';
                     wrong1.style.display = 'none';
-                    right1.style.display = 'none';
+                    // right1.style.display = 'none';
                 });
                 return;
             } else {
@@ -384,6 +384,7 @@
             isPhoneCheckPassed = false;
             let tempVar2 = +phone.value;
             phDisplay = tempVar2;
+
             if (isNaN(tempVar2)) {
                 // alert("Enter Only Numbers!!");
                 // phone.value = removeLast.substring(0, removeLast.length - 1);
@@ -405,6 +406,7 @@
                 wrong3.style.display = 'none';
                 msgPhone.style.display = 'none';
             }
+
             // -> 621-799 -> Reliance Jio
             //            -> 800-920 -> Idea
             //            -> 921-999 -> airtel
@@ -435,7 +437,23 @@
 
             }
             console.log(currentProvider)
-            isPhoneCheckPassed = true;
+            if (tempVar2.toString().length < 10) {
+                msgPhone.innerText = "Enter 10 digit Numbers";
+                msgPhone.style.display = 'block';
+                wrong3.style.display = 'inline';
+                right3.style.display = 'none';
+                isPhoneCheckPassed = false;
+                phone.addEventListener('click', () => {
+                    msgPhone.style.display = 'none';
+                    wrong3.style.display = 'none';
+                    right3.style.display = 'none';
+                });
+                return;
+
+            } else {
+                isPhoneCheckPassed = true;
+            }
+
             // Step 04 (b):- Check Phone Validation for second 3 digits
 
 
@@ -656,8 +674,11 @@
             } else {
                 // Wrong OTP
 
-                if (attempts == null || temp === "") {
+                if (attempts == null) {
                     attempts = 0;
+                }
+                if (verify == "") {
+                    return;
                 }
                 attempts++;
                 localStorage.setItem("otpAttempts", attempts);
