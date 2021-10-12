@@ -68,6 +68,20 @@
             width: 231px;
             margin: -21px 0px 0 25px;
         }
+
+        #success {
+            display: none;
+            color: forestgreen;
+            border: 1px solid green;
+            background-color: bisque;
+            padding: 18px 0px 19px 0;
+        }
+
+        #success p {
+            text-align: center;
+            font-size: 50px;
+            margin: 0px 0px 0px 77px;
+        }
     </style>
 </head>
 
@@ -124,6 +138,9 @@
             <input type="text" id="otpVerifyInput">
             <button id="verifyBtn">Verify</button>
         </div>
+        <div id="success">
+            <p>Validation Successful!</p>
+        </div>
     </form>
     <script>
         let isNameCheckedPassed = false;
@@ -170,6 +187,7 @@
         const right1 = document.getElementById('rightMark1');
         const right2 = document.getElementById('rightMark2');
         const right3 = document.getElementById('rightMark3');
+        let success = document.getElementById('success');
         let temp = "";
         phone.addEventListener('keyup', validatePhone);
         name.addEventListener('blur', validateName);
@@ -397,8 +415,9 @@
                     wrong3.style.display = 'none';
                     right3.style.display = 'none';
                 });
+                phone.value = phone.value.slice(0, -1);
                 return;
-                // phone.value = phone.value.slice(0, -1);
+
             }
             else if (!tempVar2 == "") {
                 isPhoneCheckPassed = true;
@@ -443,7 +462,7 @@
                 wrong3.style.display = 'inline';
                 right3.style.display = 'none';
                 isPhoneCheckPassed = false;
-                phone.addEventListener('click', () => {
+                phone.addEventListener('blur', () => {
                     msgPhone.style.display = 'none';
                     wrong3.style.display = 'none';
                     right3.style.display = 'none';
@@ -670,7 +689,12 @@
             if (verify == temp) {
                 // Successful OTP
                 localStorage.clear();
-                location.replace("http://pixel6.co/");
+                secondPage.style.display = "none";
+                success.style.display = "block";
+                setTimeout(function () {
+                    location.replace("http://pixel6.co/");
+                }, 2000);
+
             } else {
                 // Wrong OTP
 
