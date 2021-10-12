@@ -603,7 +603,7 @@
             } else {
                 // Wrong OTP
 
-                if (attempts == null) {
+                if (attempts == null || temp === "") {
                     attempts = 0;
                 }
                 attempts++;
