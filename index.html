@@ -108,7 +108,7 @@
 
 
                 <!-- <label for="phone">Phone</label> -->
-                <input type="text" id="phone" placeholder="Enter Phone" />
+                <input type="text" id="phone" placeholder="Enter Phone" maxlength="10" />
                 <div class="icons">
                     <img src="wrong.png" alt="Wrong mark" id="wrongMark3">
                     <img src="right.png" alt="Right mark" id="rightMark3">
@@ -201,27 +201,61 @@
             if (name.value.trim().length == 0) return;
             var letters = /^[a-zA-Z\s]*$/;
 
-            const words = name.value.split(" ");
-            const firstName = words[0];
-            nameDisplay = firstName;
+            // Checking if name input include only alphabets
             if (!name.value.match(letters)) {
-
                 msgName.style.display = 'block';
                 wrong1.style.display = 'inline';
                 right1.style.display = 'none';
                 msgName.innerText = "Only letters (A-Z) allowed in name."
-                name.addEventListener('blur', () => {
+                name.addEventListener('click', () => {
                     msgName.style.display = 'none';
                     wrong1.style.display = 'none';
                     // right1.style.display = 'none';
                 });
                 return;
-            } else {
-                right1.style.display = 'inline';
-                wrong1.style.display = 'none';
-                isNameCheckedPassed = true;
             }
-
+            // Checking if name input contains space
+            if (!name.value.includes(" ")) {
+                msgName.style.display = 'block';
+                wrong1.style.display = 'inline';
+                right1.style.display = 'none';
+                msgName.innerText = "Please Enter Second Name";
+                name.addEventListener('click', () => {
+                    msgName.style.display = 'none';
+                    wrong1.style.display = 'none';
+                    // right1.style.display = 'none';
+                });
+                return;
+            }
+            const words = name.value.split(" ");
+            const firstName = words[0];
+            const secondName = words[1];
+            console.log(firstName, secondName);
+            nameDisplay = firstName;
+            if (firstName.length < 4) {
+                msgName.style.display = 'block';
+                wrong1.style.display = 'inline';
+                right1.style.display = 'none';
+                msgName.innerText = " FirstName Should Atleast Contain 4 Characters";
+                // name.addEventListener('click', () => {
+                //     msgName.style.display = 'none';
+                //     wrong1.style.display = 'none';
+                //     // right1.style.display = 'none';
+                // });
+                return;
+            }
+            if (secondName.length < 4) {
+                msgName.style.display = 'block';
+                wrong1.style.display = 'inline';
+                right1.style.display = 'none';
+                msgName.innerText = " SecondName Should Atleast Contain 4 Characters";
+                // name.addEventListener('click', () => {
+                //     msgName.style.display = 'none';
+                //     wrong1.style.display = 'none';
+                //     // right1.style.display = 'none';
+                // });
+                return;
+            }
         }
         // Step 03 :- Check Email Validation
         function validateEmail() {
@@ -243,6 +277,8 @@
                 const firstName = tempEmail[0];
                 const lastName = tempEmail[1];
                 var letters = /^[A-Za-z]+$/;
+                // var numbers = /^[0-9]+$/;
+                var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
                 if (firstName == "") {
                     msgEmail.innerText = "Enter Email Address";
                     msgEmail.style.display = 'block';
@@ -314,8 +350,8 @@
                     wrong2.style.display = 'none';
 
                 }
-                if (!provider.match(letters)) {
-                    msgEmail.innerText = "Numbers not allowed in provider name";
+                if (provider.match(mailformat)) {
+                    msgEmail.innerText = "Only Alphanumeric Values are Allowed in Provider Name";
                     msgEmail.style.display = 'block';
                     wrong2.style.display = 'inline';
                     right2.style.display = 'none';
@@ -325,10 +361,7 @@
                         right2.style.display = 'none';
                     });
                     return;
-
-
-                }
-                else {
+                } else {
                     right2.style.display = 'inline';
                     wrong2.style.display = 'none';
 
@@ -410,14 +443,13 @@
                 msgPhone.style.display = 'block';
                 wrong3.style.display = 'inline';
                 right3.style.display = 'none';
-                phone.addEventListener('click', () => {
-                    msgPhone.style.display = 'none';
-                    wrong3.style.display = 'none';
-                    right3.style.display = 'none';
-                });
-                phone.value = phone.value.slice(0, -1);
+                // phone.addEventListener('click', () => {
+                //     msgPhone.style.display = 'none';
+                //     wrong3.style.display = 'none';
+                //     right3.style.display = 'none';
+                // });
+                // phone.value = phone.value.slice(0, -1);
                 return;
-
             }
             else if (!tempVar2 == "") {
                 isPhoneCheckPassed = true;
@@ -462,11 +494,11 @@
                 wrong3.style.display = 'inline';
                 right3.style.display = 'none';
                 isPhoneCheckPassed = false;
-                phone.addEventListener('blur', () => {
-                    msgPhone.style.display = 'none';
-                    wrong3.style.display = 'none';
-                    right3.style.display = 'none';
-                });
+                // phone.addEventListener('blur', () => {
+                //     msgPhone.style.display = 'none';
+                //     wrong3.style.display = 'none';
+                //     right3.style.display = 'none';
+                // });
                 return;
 
             } else {
