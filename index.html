@@ -256,11 +256,12 @@
                 // });
                 return;
             }
-            else {
-                msgName.style.display = 'none';
-                wrong1.style.display = 'none';
-                right1.style.display = 'inline';
-            }
+
+            msgName.style.display = 'none';
+            wrong1.style.display = 'none';
+            right1.style.display = 'inline';
+            isNameCheckedPassed = true;
+
         }
         // Step 03 :- Check Email Validation
         function validateEmail() {
@@ -295,10 +296,6 @@
                         right2.style.display = 'none';
                     });
                     return;
-                } else {
-                    right2.style.display = 'inline';
-                    wrong2.style.display = 'none';
-
                 }
                 if (!lastName.includes(".")) {
                     msgEmail.innerText = "Please provide a valid domain name";
@@ -311,10 +308,6 @@
                         right2.style.display = 'none';
                     });
                     return;
-                } else {
-                    right2.style.display = 'inline';
-                    wrong2.style.display = 'none';
-
                 }
                 const addressTemp = lastName.split(".");
                 const provider = addressTemp[0];
@@ -332,10 +325,6 @@
                     });
                     return;
 
-                } else {
-                    right2.style.display = 'inline';
-                    wrong2.style.display = 'none';
-
                 }
                 if (provider == "") {
                     msgEmail.innerText = "Enter Provider Name";
@@ -350,11 +339,7 @@
                     return;
 
                 }
-                else {
-                    right2.style.display = 'inline';
-                    wrong2.style.display = 'none';
 
-                }
                 if (provider.match(mailformat)) {
                     msgEmail.innerText = "Only Alphanumeric Values are Allowed in Provider Name";
                     msgEmail.style.display = 'block';
@@ -366,10 +351,6 @@
                         right2.style.display = 'none';
                     });
                     return;
-                } else {
-                    right2.style.display = 'inline';
-                    wrong2.style.display = 'none';
-
                 }
                 if (!domain.match(letters)) {
                     msgEmail.innerText = "Numbers not allowed in domain name";
@@ -383,10 +364,6 @@
                         right2.style.display = 'none';
                     });
                     return;
-
-                } else {
-                    right2.style.display = 'inline';
-                    wrong2.style.display = 'none';
 
                 }
                 if (domain.length < 2) {
@@ -421,6 +398,7 @@
                 });
                 return;
             }
+            isEmailCheckedPassed = true;
         }
 
         // Step 04:- Check Phone Validation
