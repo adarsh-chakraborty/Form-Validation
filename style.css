@@ -158,3 +158,7 @@ input:focus{
     display: flex;
     gap: 1rem;
 }
+
+h3{
+    color:#006064;
+}

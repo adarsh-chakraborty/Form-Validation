@@ -282,8 +282,8 @@ btnValidateOTP.addEventListener('click', () => {
 		attemptsDiv.innerText = '';
 		document.querySelector('.validationControls').style.display = 'none';
 
-		validationText.innerHTML = `<span>Success! Your OTP has been Validated!, You will now be redirected to our official site!'</span>
-			<lottie-player src="https://assets9.lottiefiles.com/datafiles/8UjWgBkqvEF5jNoFcXV4sdJ6PXpS6DwF7cK4tzpi/Check Mark Success/Check Mark Success Data.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"   autoplay></lottie-player>
+		validationText.innerHTML = `<h3>Success! Your OTP has been Validated!, You will now be redirected to our official site!'</h3>
+		<img src="/assets/success.png" alt="success" width="300px" style="padding: 1rem">
 			`;
 		setTimeout(() => {
 			location.replace('http://pixel6.co');
@@ -293,9 +293,9 @@ btnValidateOTP.addEventListener('click', () => {
 	if (USR_ATTEMPTS <= 1) {
 		attemptsDiv.innerText = '';
 		document.querySelector('.validationControls').style.display = 'none';
-		validationText.innerHTML = `<span>Ah Snap! You ran out of attempts.
-			 Your OTP verification has failed!</span>
-			 <lottie-player src="https://assets7.lottiefiles.com/packages/lf20_p7ki6kij.json"  background="transparent"  speed="2"  style="width: 300px; height: 300px;"    autoplay></lottie-player>`;
+		validationText.innerHTML = `<h3>Ah Snap! You ran out of attempts.
+			 Your OTP verification has failed!</h3>
+			 <img src="/assets/error.png" alt="error" width="300px" style="padding: 1rem">`;
 		setTimeout(() => {
 			location.replace('http://pixel6.co/404');
 		}, 3000);
