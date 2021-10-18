@@ -43,6 +43,10 @@
    align-items: center;
 }
 
+.input{
+    width: 100%;
+    display: flex;
+}
 input{
     border-radius: 3px;
     border: 1px solid #006064;
@@ -81,7 +85,7 @@ input:focus{
 }
 
 .phoneControl{
-    width: 18rem;
+    width: 20rem;
     position: relative;
     flex-direction: column;
     gap: .75rem;
@@ -132,9 +136,25 @@ input:focus{
     padding-top: .6rem;
     padding-bottom: .6rem;
     width: 20rem;
+    margin-left: -2rem;
 
 }
 
 .errorState span{
     padding-left: .5rem;
+
+}
+.stateSecond{
+    display: none;
+}
+.validationText{
+    max-width: 75%;
+    flex-direction: column;
+}
+.validationControls{
+    padding: 4px;
+    margin-top: 1rem;
+    width: 40%;
+    display: flex;
+    gap: 1rem;
 }
