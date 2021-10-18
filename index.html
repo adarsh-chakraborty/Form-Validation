@@ -5,8 +5,50 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Validation v2</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="/assets/states.js" defer></script>
+    <script src="/assets/providers.js" defer></script>
+    <script src="main.js" defer></script>
 </head>
 <body>
-    
+    <div class="container centered">
+       
+        <div class="stateFirst centered">
+           
+            <form class="form centered">
+            <h2 class="header">User Registration v0.2</h2>
+            <div class="errorState"><img src="/assets/err.svg" width="30px" alt="err"> <span>adarsh</span></div>
+            <div class="formv2 centered">
+                <div class="phoneControl centered">
+                    <input type="text" placeholder="Enter your name" id="name" required>
+                     <input type="text" placeholder="Enter your e-mail" id="email" required>
+                    <div class="phoneControl">
+                        <input type="text" id="phone" autocomplete="off" required>
+                         <span class="pd" id="pd">Enter 10 digits phone number.</span>
+                    </div>
+                </div>
+                <div class="phoneInfo">
+                    <div class="providerimg">
+                        <img id="imgprovider" src="">
+                    </div>
+                    <span id="stateid" style="padding-left: 1rem; padding-top: .25rem;"></span>
+                </div>
+            </div>
+           
+            <div class="centered formControls">
+                <button type="submit" class="btnPrimary" id="btnSubmit">Submit</button>
+                <button type="reset" class="btnSecondary">Reset</button>
+            </div>
+        </form>
+        
+            
+        </div>
+        
+    </div>
 </body>
 </html>

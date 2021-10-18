@@ -1,0 +1,140 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto Slab', serif;
+}
+.container {
+   height: 100vh;
+   background-color: #80DEEA;
+}
+
+.stateFirst{
+    width: 100%;
+    position: relative;
+    
+}
+.header{
+    color: #006064;
+    font-weight: bold;
+    font-size: 1.75rem;
+    border-bottom: 2px solid #006064;
+    margin-bottom: .45rem;
+}
+.form{
+    width: 75%;
+    
+    background-color: #B2EBF2;
+    border-radius: 6px;
+    flex-direction: column;
+    gap: .5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    
+}
+
+.formv2{
+    width: 100%;
+}
+
+.centered{
+    display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+input{
+    border-radius: 3px;
+    border: 1px solid #006064;
+    padding: .45rem;
+    width: 100%;
+    
+}
+
+input:focus{
+    background-color: #E0F7FA;
+    outline-color: #006064;
+    
+}
+
+.btnPrimary{
+    text-transform: uppercase;
+    cursor: pointer;
+    color: white;
+    padding: .65rem 1.5rem;
+    background-color: #00838F;
+    border: 2px solid #006064;
+}
+
+.btnSecondary{
+    text-transform: uppercase;
+    cursor: pointer;
+    color: white;
+    padding: .65rem 1.5rem;
+    background-color: #0097A7;
+    border: 2px solid #006064;
+}
+
+.formControls{
+    margin-top: 1.5rem;
+    gap: 1rem;
+}
+
+.phoneControl{
+    width: 18rem;
+    position: relative;
+    flex-direction: column;
+    gap: .75rem;
+
+
+}
+
+.pd{
+    pointer-events: none;
+    position: absolute;
+    left: 0;
+    padding: 7px;
+    font-size: small;
+    color: grey;
+    
+}
+
+#phone{
+    color: transparent;
+    letter-spacing: .1em;
+}
+
+.phoneInfo{
+    padding-left: 2rem;
+    display: flex;
+    width: 0%;
+    flex-direction: column;
+   
+
+    
+}
+
+
+
+.providerimg img{
+    width: 6.5rem;
+}
+
+.errorState{
+
+    display: none;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: .55rem;
+    background-color: #00838F;
+    color: #fff;
+    border-radius: 4px;
+    padding-top: .6rem;
+    padding-bottom: .6rem;
+    width: 20rem;
+
+}
+
+.errorState span{
+    padding-left: .5rem;
+}
