@@ -67,6 +67,7 @@ phoneInput.addEventListener('blur', () => {
 	let contact = phoneInput.value.trim();
 	if (!isValidInput(contact)) {
 		pd.innerText = 'Enter 10 digits phone number.';
+		setErrorState(vError.phone, 'Please enter phone number.');
 	}
 });
 phoneInput.addEventListener('paste', validatePhone);
