@@ -146,7 +146,7 @@ function validatePhone(e) {
 	if (!isValidInput) return false;
 	let contact = e.target.value;
 	if (isNaN(contact)) {
-		let sanitized = phoneInput.value.slice(0, -1);
+		let sanitized = e.target.value.slice(0, -1);
 		phoneInput.value = sanitized;
 		pd.innerText = formatNumber(sanitized);
 		// alert('Non number detected. Removed last character.');
