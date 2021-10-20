@@ -72,6 +72,9 @@ phoneInput.addEventListener('blur', () => {
 });
 phoneInput.addEventListener('paste', validatePhone);
 
+const btnReset = document
+	.getElementById('btnReset')
+	.addEventListener('click', resetForm);
 const btnSubmit = document.getElementById('btnSubmit');
 
 btnSubmit.addEventListener('click', (e) => {
@@ -320,6 +323,18 @@ function setErrorState(control, msg) {
 function setSuccessState(control) {
 	errorState.style.display = 'none';
 	control.src = 'assets/check.svg';
+}
+
+function resetForm() {
+	vError.name.src = '';
+	vError.email.src = '';
+	vError.phone.src = '';
+
+	errorState.style.display = 'none';
+	pd.innerText = 'Enter 10 digits phone number.';
+
+	setProvider(null);
+	setState(null);
 }
 
 function generateOTP() {
