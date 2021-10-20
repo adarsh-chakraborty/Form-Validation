@@ -284,7 +284,7 @@ btnValidateOTP.addEventListener('click', () => {
 		document.querySelector('.validationControls').style.display = 'none';
 
 		validationText.innerHTML = `<h3>Success! Your OTP has been Validated!, You will now be redirected to our official site!'</h3>
-		<img src="/assets/success.png" alt="success" width="300px" style="padding: 1rem">
+		<img src="assets/success.png" alt="success" width="300px" style="padding: 1rem">
 			`;
 		setTimeout(() => {
 			location.replace('http://pixel6.co');
@@ -296,7 +296,7 @@ btnValidateOTP.addEventListener('click', () => {
 		document.querySelector('.validationControls').style.display = 'none';
 		validationText.innerHTML = `<h3>Ah Snap! You ran out of attempts.
 			 Your OTP verification has failed!</h3>
-			 <img src="/assets/error.png" alt="error" width="300px" style="padding: 1rem">`;
+			 <img src="assets/error.png" alt="error" width="300px" style="padding: 1rem">`;
 		setTimeout(() => {
 			location.replace('http://pixel6.co/404');
 		}, 3000);
