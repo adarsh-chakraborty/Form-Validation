@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script src="js/states.js" defer></script>
+		<script src="js/providers.js" defer></script>
+		<title>Document</title>
+		<style>
+			.container {
+				height: 80vh;
+				width: 100%;
+				gap: 1rem;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+			}
+
+			input {
+				height: 1.5rem;
+				width: 14rem;
+				padding-left: 0.3rem;
+				border-radius: 3px;
+				border: 1.3px solid black;
+			}
+			.phoneInfo {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				font-family: Arial, Helvetica, sans-serif;
+			}
+
+			.providerimg img {
+				width: 6.5rem;
+			}
+
+			.controls {
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+			}
+
+			button {
+				padding: 6px;
+				text-transform: uppercase;
+			}
+
+			#stateid {
+				margin-top: 1rem;
+				border-top: 1px solid black;
+				border-bottom: 1px solid black;
+				padding: 4px;
+				width: 8rem;
+				text-align: center;
+			}
+		</style>
+		<script src="number.js" defer></script>
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="phoneInfo">
+				<div class="providerimg">
+					<img
+						id="imgprovider"
+						src="https://upload.wikimedia.org/wikipedia/en/thumb/2/2a/VI_%28Vodafone_Idea%29_Logo.svg/1200px-VI_%28Vodafone_Idea%29_Logo.svg.png"
+					/>
+				</div>
+				<span id="stateid">Ladakh</span>
+			</div>
+			<div class="controls">
+				<input type="text" id="ph" />
+				<button id="getNum">Get number</button>
+			</div>
+		</div>
+		
+	</body>
+</html>
