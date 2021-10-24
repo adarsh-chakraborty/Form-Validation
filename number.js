@@ -1,1 +1,75 @@
-const a0_0x49e8d7=a0_0x4b59;(function(_0x1a6648,_0x3deb4d){const _0x529c59=a0_0x4b59,_0x534443=_0x1a6648();while(!![]){try{const _0x1b1701=parseInt(_0x529c59(0xe9))/0x1*(-parseInt(_0x529c59(0xf2))/0x2)+parseInt(_0x529c59(0xf8))/0x3+parseInt(_0x529c59(0xf6))/0x4+parseInt(_0x529c59(0xf0))/0x5*(parseInt(_0x529c59(0x100))/0x6)+-parseInt(_0x529c59(0xee))/0x7+-parseInt(_0x529c59(0xf4))/0x8+-parseInt(_0x529c59(0xe8))/0x9*(-parseInt(_0x529c59(0xe7))/0xa);if(_0x1b1701===_0x3deb4d)break;else _0x534443['push'](_0x534443['shift']());}catch(_0xd8eb7){_0x534443['push'](_0x534443['shift']());}}}(a0_0x32bb,0xb4de2));function a0_0x32bb(){const _0x41593d=['getNum','value','stopPropagation','clipboardData','preventDefault','getElementById','100134TkPHjW','textInput','Please\x20paste\x2010\x20digit\x20numbers\x20only!','addEventListener','2930vWubYU','31869atIUuZ','20kKbbWp','data','getData','toString','length','2121245fEEddk','slice','215ldvqhw','click','61380BQDhzc','Text','11619320lQpHfS','paste','358964FaHVkQ','trim','3795609IDMila','replace'];a0_0x32bb=function(){return _0x41593d;};return a0_0x32bb();}const ph=document[a0_0x49e8d7(0xff)]('ph');function a0_0x4b59(_0x3045cb,_0x3c388c){const _0x32bb9a=a0_0x32bb();return a0_0x4b59=function(_0x4b59d5,_0x26c7e1){_0x4b59d5=_0x4b59d5-0xe4;let _0x52d11d=_0x32bb9a[_0x4b59d5];return _0x52d11d;},a0_0x4b59(_0x3045cb,_0x3c388c);}ph[a0_0x49e8d7(0xe6)](a0_0x49e8d7(0xf5),_0x43e925=>{const _0x3da255=a0_0x49e8d7;let _0x4e17bf,_0x378847;_0x43e925['stopPropagation'](),_0x43e925[_0x3da255(0xfe)](),_0x4e17bf=_0x43e925[_0x3da255(0xfd)]||window[_0x3da255(0xfd)],_0x378847=_0x4e17bf[_0x3da255(0xeb)](_0x3da255(0xf3))[_0x3da255(0xf7)]();if(isNaN(_0x378847)||_0x378847[_0x3da255(0xed)]>0xa){alert(_0x3da255(0xe5));return;}ph['value']=formatNumber(_0x378847);}),ph['addEventListener'](a0_0x49e8d7(0xe4),_0x57df58=>{const _0x2f63fb=a0_0x49e8d7;if(isNaN(_0x57df58['data'])||_0x57df58[_0x2f63fb(0xea)]=='\x20'||ph[_0x2f63fb(0xfb)][_0x2f63fb(0xed)]>=0xe){_0x57df58[_0x2f63fb(0xfc)](),_0x57df58[_0x2f63fb(0xfe)]();return;}ph[_0x2f63fb(0xfb)]=formatNumber(getNumberFromFormattedCode(ph[_0x2f63fb(0xfb)]));});const getNum=document['getElementById'](a0_0x49e8d7(0xfa));getNum['addEventListener'](a0_0x49e8d7(0xf1),()=>{const _0x22e8b7=a0_0x49e8d7;alert(getNumberFromFormattedCode(ph[_0x22e8b7(0xfb)]));});function formatNumber(_0xbdc5b4){const _0x71a82=a0_0x49e8d7;let _0x434c7a=_0xbdc5b4[_0x71a82(0xec)]();if(_0x434c7a[_0x71a82(0xed)]===0x3)return'('+_0x434c7a+')-';if(_0x434c7a[_0x71a82(0xed)]>=0x4&&_0x434c7a[_0x71a82(0xed)]<=0x6){let _0x3e46cf=_0x434c7a[_0x71a82(0xef)](0x0,0x3),_0xc805db=_0x434c7a[_0x71a82(0xef)](0x3,0x6);return'('+_0x3e46cf+')-'+_0xc805db+'-';}if(_0x434c7a[_0x71a82(0xed)]>=0x7&&_0x434c7a[_0x71a82(0xed)]<=0xa){let _0x314771=_0x434c7a['slice'](0x0,0x3),_0x4650b2=_0x434c7a[_0x71a82(0xef)](0x3,0x6),_0x4c2ee0=_0x434c7a['slice'](0x6);return'('+_0x314771+')-'+_0x4650b2+'-'+_0x4c2ee0;}return _0x434c7a;}function getNumberFromFormattedCode(_0x27e512){const _0x350a14=a0_0x49e8d7;return _0x27e512[_0x350a14(0xf9)](/[^\d]/g,'');}
+const ph = document.getElementById('ph');
+// /(\(\d{3}\))-(\d{3})-(\d{4})/
+ph.addEventListener('paste', (e) => {
+	let clipboardData, pastedData;
+
+	// Stop data actually being pasted into div
+	e.stopPropagation();
+	e.preventDefault();
+
+	// Get pasted data via clipboard API
+	clipboardData = e.clipboardData || window.clipboardData;
+	pastedData = clipboardData.getData('Text').trim();
+
+	if (isNaN(pastedData) || pastedData.length > 10) {
+		alert('Please paste 10 digit numbers only!');
+		return;
+	}
+	ph.value = formatNumber(pastedData);
+});
+let firstThree = null;
+let secondThree = null;
+ph.addEventListener('textInput', (e) => {
+	if (isNaN(e.data) || e.data == ' ' || ph.value.length >= 14) {
+		e.stopPropagation();
+		e.preventDefault();
+		return;
+	}
+	ph.value = formatNumber(getNumberFromFormattedCode(ph.value));
+
+	// if (ph.value.length === 3) {
+	// 	firstThree = e.target.value;
+	// 	ph.value = `(${e.target.value})-`;
+	// 	return;
+	// }
+
+	// if (ph.value.length === 9) {
+	// 	secondThree = e.target.value.split(')-')[1];
+	// 	ph.value = `(${firstThree})-${secondThree}-`;
+	// }
+});
+
+const getNum = document.getElementById('getNum');
+getNum.addEventListener('click', () => {
+	alert(getNumberFromFormattedCode(ph.value));
+});
+
+function formatNumber(contact) {
+	// There would be 3 state of contact
+	// 123
+	// 789 879 1247
+	let temp = contact.toString();
+	if (temp.length === 3) return `(${temp})-`;
+	if (temp.length >= 4 && temp.length <= 6) {
+		// between 3 and 6 chars
+
+		let firstThree = temp.slice(0, 3);
+		let midThree = temp.slice(3, 6);
+		if (midThree.length === 3) {
+			return `(${firstThree})-${midThree}-`;
+		}
+		return `(${firstThree})-${midThree}`;
+	}
+	if (temp.length >= 7 && temp.length <= 10) {
+		// between 3 and 6 chars
+		let firstThree = temp.slice(0, 3);
+		let midThree = temp.slice(3, 6);
+		let rest = temp.slice(6);
+		return `(${firstThree})-${midThree}-${rest}`;
+	}
+	return temp;
+}
+
+function getNumberFromFormattedCode(num) {
+	return num.replace(/[^\d]/g, '');
+}
